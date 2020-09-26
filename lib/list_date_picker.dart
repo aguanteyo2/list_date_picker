@@ -1040,9 +1040,11 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
   }
 
   void _handleDayChanged(List<DateTime> value) {
+    print("this is handle day changed");
     _vibrate();
     if (_selectedDates.length < 4) {
       setState(() {
+        print("this is handle day changed set state");
         _selectedDates = value;
       });
     }
