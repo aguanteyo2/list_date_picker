@@ -88,9 +88,9 @@ class _DatePickerHeader extends StatelessWidget {
 
     // And remove this:
     final TextStyle dayStyle =
-        headerTextTheme.headline.copyWith(color: dayColor);
+        headerTextTheme.headline5.copyWith(color: dayColor);
     final TextStyle yearStyle =
-        headerTextTheme.subtitle.copyWith(color: yearColor);
+        headerTextTheme.subtitle2.copyWith(color: yearColor);
     //
 
     Color backgroundColor;
@@ -504,7 +504,7 @@ class DayPicker extends StatelessWidget {
                   isRemoved = true;
                 }
               }
-              if (!isRemoved) {
+              if (!isRemoved && selectedDates.length < 4) {
                 selectedDates.add(dayToBuild);
               } else {
                 selectedDates.remove(dayToBuild);
@@ -912,7 +912,7 @@ class _YearPickerState extends State<YearPicker> {
     // On flutter version >1.15 uncomment this:
     // final TextStyle style = themeData.textTheme.bodyText2;
     // And remove this:
-    final TextStyle style = themeData.textTheme.body2;
+    final TextStyle style = themeData.textTheme.bodyText1;
 
     return ListView.builder(
       dragStartBehavior: widget.dragStartBehavior,
@@ -930,7 +930,7 @@ class _YearPickerState extends State<YearPicker> {
         // And remove this:
 
         final TextStyle itemStyle = isSelected
-            ? themeData.textTheme.headline
+            ? themeData.textTheme.headline5
                 .copyWith(color: themeData.accentColor)
             : style;
         return InkWell(
