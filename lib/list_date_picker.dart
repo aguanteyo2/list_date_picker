@@ -1041,9 +1041,11 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
 
   void _handleDayChanged(List<DateTime> value) {
     _vibrate();
-    setState(() {
-      _selectedDates = value;
-    });
+    if (_selectedDates.length < 4) {
+      setState(() {
+        _selectedDates = value;
+      });
+    }
   }
 
   void _handleCancel() {
@@ -1085,54 +1087,57 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
 
     final Dialog dialog = Dialog(
       child: OrientationBuilder(
-          builder: (BuildContext context, Orientation orientation) {
-        assert(orientation != null);
-        final Widget header = _DatePickerHeader(
-          selectedDate:
-              _selectedDates.isNotEmpty ? _selectedDates[0] : widget.firstDate,
-          mode: _mode,
-          onModeChanged: _handleModeChanged,
-          orientation: orientation,
-        );
-        switch (orientation) {
-          case Orientation.portrait:
-            return Container(
-              color: theme.dialogBackgroundColor,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  header,
-                  Flexible(child: picker),
-                  actions,
-                ],
-              ),
-            );
-          case Orientation.landscape:
-            return Container(
-              color: theme.dialogBackgroundColor,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Flexible(child: header),
-                  Flexible(
-                    flex: 2, // have the picker take up 2/3 of the dialog width
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Flexible(child: picker),
-                        actions,
-                      ],
+        builder: (BuildContext context, Orientation orientation) {
+          assert(orientation != null);
+          final Widget header = _DatePickerHeader(
+            selectedDate: _selectedDates.isNotEmpty
+                ? _selectedDates[0]
+                : widget.firstDate,
+            mode: _mode,
+            onModeChanged: _handleModeChanged,
+            orientation: orientation,
+          );
+          switch (orientation) {
+            case Orientation.portrait:
+              return Container(
+                color: theme.dialogBackgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    header,
+                    Flexible(child: picker),
+                    actions,
+                  ],
+                ),
+              );
+            case Orientation.landscape:
+              return Container(
+                color: theme.dialogBackgroundColor,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Flexible(child: header),
+                    Flexible(
+                      flex:
+                          2, // have the picker take up 2/3 of the dialog width
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Flexible(child: picker),
+                          actions,
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-        }
-        return null;
-      }),
+                  ],
+                ),
+              );
+          }
+          return null;
+        },
+      ),
     );
 
     return Theme(
